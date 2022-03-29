@@ -16,10 +16,10 @@ jobs:
         with:
           flutter-version: '2.10.3'
 
-      - name: Install dependencies
+      - name: Install app dependencies
         run: flutter packages get
 
-      - name: Format
+      - name: Format the code
         run: flutter format --set-exit-if-changed lib test
 
       - name: Analyze the code

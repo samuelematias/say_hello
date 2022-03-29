@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:widgetbook_challenge/app.dart';
+import 'package:widgetbook_challenge/app/app.dart';
 
 void main() {
   testWidgets('$App contains reminder', (WidgetTester tester) async {

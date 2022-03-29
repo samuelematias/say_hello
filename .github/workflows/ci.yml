@@ -1,0 +1,29 @@
+name: Flutter - Analyze the code and Run tests (CI)
+
+on:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '2.10.3'
+
+      - name: Install app dependencies
+        run: flutter packages get
+
+      - name: Format the code
+        run: flutter format --set-exit-if-changed lib test
+
+      - name: Analyze the code
+        run: flutter analyze || exit 1
+
+      - name: Run all tests
+        run: flutter test --exclude-tags='no-ci'

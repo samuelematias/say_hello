@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:widgetbook_challenge/constants/constants.dart';
 
 /// Custom component textfield.
 class TextInputWidget extends StatelessWidget {
   /// Creates a new instance of [TextInputWidget].
   const TextInputWidget({
     Key? key,
-    // required this.onSubmitted,
     required this.controller,
     this.onChanged,
     this.trailing,
     this.hintText = 'Type here',
   }) : super(key: key);
-
-  /// Reponsable to re
-  // final ValueSetter<String> onSubmitted;
 
   /// Check the typed string in the Textfield
   final ValueChanged<String>? onChanged;
@@ -38,7 +35,7 @@ class TextInputWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide.none,
         ),
-        prefixIcon: const Icon(Icons.create, color: Colors.purpleAccent),
+        prefixIcon: const Icon(Icons.create, color: brandColor),
         suffixIcon: trailing,
         hintText: hintText,
       ),

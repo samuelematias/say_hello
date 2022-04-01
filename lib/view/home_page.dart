@@ -76,13 +76,6 @@ class HomeView extends StatelessWidget {
                                   controller,
                                   message: controller.text,
                                 ),
-                        // onPressed: state.isValueTyped
-                        //     ? () => _getWidgetbook(
-                        //           context,
-                        //           controller,
-                        //           message: controller.text,
-                        //         )
-                        //     : null,
                         child: const Text('Say, Hello!'),
                       ),
                       const SizedBox(height: 20),
@@ -124,16 +117,7 @@ class _MessageWidget extends StatelessWidget {
             content: Text('Something is wrong! Try again later.'),
           );
           _showSnackBar(context, snackBar: snackBar);
-        }
-
-        // else if (state.hasError == ErrorType.invalidEnteredValue) {
-        //   const snackBar = SnackBar(
-        //     content: Text('This field just accept words/letters.'),
-        //   );
-        //   _showSnackBar(context, snackBar: snackBar);
-        // }
-
-        else if (state.hasError == ErrorType.defaultApiError) {
+        } else if (state.hasError == ErrorType.defaultApiError) {
           const snackBar = SnackBar(
             content: Text('Something is wrong! Try again later.'),
           );

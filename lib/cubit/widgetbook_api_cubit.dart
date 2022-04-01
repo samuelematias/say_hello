@@ -62,8 +62,6 @@ class WidgetbookApiCubit extends Cubit<WidgetbookApiState> {
         ),
       );
     } else {
-      // final check = message.contains(RegExp('[0-9]'));
-
       /// Check if the message has Numbers or Special Character.
       final messageHasNumberOrSpecialCharacter = message.contains(
         RegExp(r'[`~!@#$%^&*()_+\-=?;:",.{}|\{\}\[\]\\\/<>0-9]'),

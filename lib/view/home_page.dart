@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:widgetbook_challenge/constants/constants.dart';
 import 'package:widgetbook_challenge/cubit/widgetbook_api_cubit.dart';
-import 'package:widgetbook_challenge/extensions/extensions.dart';
 import 'package:widgetbook_challenge/widgets/widgets.dart';
 
 /// The widget responsible for creating the HomePage.
@@ -32,7 +31,6 @@ class HomeView extends StatelessWidget {
       ),
       body: SafeArea(
         child: GestureDetector(
-          // onTap: () => context.unfocus(),
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: Padding(
             padding: const EdgeInsets.only(
@@ -99,7 +97,7 @@ class HomeView extends StatelessWidget {
   }) {
     context.read<WidgetbookApiCubit>().getWidgetbook(message: message);
     controller.clear();
-    context.unfocus();
+    FocusManager.instance.primaryFocus?.unfocus();
   }
 }
 

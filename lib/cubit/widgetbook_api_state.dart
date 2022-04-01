@@ -107,17 +107,6 @@ class WidgetbookApiState extends Equatable {
     );
   }
 
-  /// Check the initial state of [WidgetbookApiState].
-  bool get isInitial =>
-      !isLoading && responseValue.isEmpty && hasError == ErrorType.none;
-
-  /// Validate if the value/message typed has numbers.
-  bool get messageHasNumber => typedValue.contains(RegExp('[0-9]'));
-
-  ///
-  bool get disabledButton =>
-      !isValueTyped && hasError == ErrorType.invalidEnteredValue;
-
   /// If is true, indicates that request to API is loading.
   ///
   /// If is false, indicates that request to API was finished.

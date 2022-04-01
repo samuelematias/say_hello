@@ -17,6 +17,7 @@ class WidgetbookApiCubit extends Cubit<WidgetbookApiState> {
   /// Send the value/message to the API, and get/return the Hello message.
   Future<void> getWidgetbook({required String message}) async {
     try {
+      emit(state.copyWith(responseValue: ''));
       emit(
         WidgetbookApiState.loading(
           typedValue: message,
@@ -61,11 +62,27 @@ class WidgetbookApiCubit extends Cubit<WidgetbookApiState> {
         ),
       );
     } else {
+      // final check = message.contains(RegExp('[0-9]'));
+
+      /// Check if the message has Numbers or Special Character.
+      final messageHasNumberOrSpecialCharacter = message.contains(
+        RegExp(r'[`~!@#$%^&*()_+\-=?;:",.{}|\{\}\[\]\\\/<>0-9]'),
+      );
+
+      /// Check if the message has Only Blank Spaces.
+      final messageHasOnlyBlankSpaces = message.trim().isEmpty;
+
+      /// Check if the message has something invalid.
+      final invalidEnteredValue =
+          messageHasNumberOrSpecialCharacter || messageHasOnlyBlankSpaces;
       emit(
         WidgetbookApiState.typedValue(
           typedValue: message,
           responseValue: state.responseValue,
           isValueTyped: true,
+          hasError: invalidEnteredValue
+              ? ErrorType.invalidEnteredValue
+              : ErrorType.none,
         ),
       );
     }

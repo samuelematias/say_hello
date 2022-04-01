@@ -32,7 +32,8 @@ class HomeView extends StatelessWidget {
       ),
       body: SafeArea(
         child: GestureDetector(
-          onTap: () => context.unfocus(),
+          // onTap: () => context.unfocus(),
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: Padding(
             padding: const EdgeInsets.only(
               left: 16,
@@ -41,6 +42,8 @@ class HomeView extends StatelessWidget {
             ),
             child: BlocBuilder<WidgetbookApiCubit, WidgetbookApiState>(
               builder: (context, state) {
+                final disabledButton = !state.isValueTyped ||
+                    state.hasError == ErrorType.invalidEnteredValue;
                 return SingleChildScrollView(
                   child: Column(
                     children: [
@@ -53,15 +56,33 @@ class HomeView extends StatelessWidget {
                             .checkIfValueWasTyped(message: message),
                       ),
                       const SizedBox(height: 20),
+                      Visibility(
+                        visible:
+                            state.hasError == ErrorType.invalidEnteredValue,
+                        child: const Padding(
+                          padding: EdgeInsets.only(bottom: 16),
+                          child: Text(
+                            'This field just accept letters [A - Z].',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ),
+                      ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(primary: brandColor),
-                        onPressed: state.isValueTyped
-                            ? () => _getWidgetbook(
+                        onPressed: disabledButton
+                            ? null
+                            : () => _getWidgetbook(
                                   context,
                                   controller,
                                   message: controller.text,
-                                )
-                            : null,
+                                ),
+                        // onPressed: state.isValueTyped
+                        //     ? () => _getWidgetbook(
+                        //           context,
+                        //           controller,
+                        //           message: controller.text,
+                        //         )
+                        //     : null,
                         child: const Text('Say, Hello!'),
                       ),
                       const SizedBox(height: 20),
@@ -103,12 +124,16 @@ class _MessageWidget extends StatelessWidget {
             content: Text('Something is wrong! Try again later.'),
           );
           _showSnackBar(context, snackBar: snackBar);
-        } else if (state.hasError == ErrorType.invalidEnteredValue) {
-          const snackBar = SnackBar(
-            content: Text('This field just accept words/letters.'),
-          );
-          _showSnackBar(context, snackBar: snackBar);
-        } else if (state.hasError == ErrorType.defaultApiError) {
+        }
+
+        // else if (state.hasError == ErrorType.invalidEnteredValue) {
+        //   const snackBar = SnackBar(
+        //     content: Text('This field just accept words/letters.'),
+        //   );
+        //   _showSnackBar(context, snackBar: snackBar);
+        // }
+
+        else if (state.hasError == ErrorType.defaultApiError) {
           const snackBar = SnackBar(
             content: Text('Something is wrong! Try again later.'),
           );

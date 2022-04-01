@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:widgetbook_challenge/constants/constants.dart';
 
 /// Custom component textfield.
@@ -27,6 +28,13 @@ class TextInputWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      // inputFormatters: [
+      //   LengthLimitingTextInputFormatter(10),
+      //   FilteringTextInputFormatter.allow(
+      //     // RegExp(r'^[a-zA-Z]+$'),
+      //     RegExp(r'^([^0-9]*)+$'),
+      //   ),
+      // ],
       controller: controller,
       key: key ?? const Key('textinput_widget'),
       decoration: InputDecoration(

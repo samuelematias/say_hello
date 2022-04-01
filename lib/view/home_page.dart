@@ -42,18 +42,13 @@ class HomeView extends StatelessWidget {
               child: BlocConsumer<WidgetbookApiCubit, WidgetbookApiState>(
                 listener: (context, state) {
                   if (state.errorType == ErrorType.defaultError) {
-                    const snackBar = SnackBar(
-                      content: Text(defaultErrorMessage),
+                    final snackBar = SnackBar(
+                      content: Text(state.errorMessage),
                     );
                     _showSnackBar(context, snackBar: snackBar);
                   } else if (state.errorType == ErrorType.defaultApiError) {
-                    const snackBar = SnackBar(
-                      content: Text(defaultErrorMessage),
-                    );
-                    _showSnackBar(context, snackBar: snackBar);
-                  } else if (state.errorType == ErrorType.timeOut) {
-                    const snackBar = SnackBar(
-                      content: Text(defaultTimeOutErrorMessage),
+                    final snackBar = SnackBar(
+                      content: Text(state.errorMessage),
                     );
                     _showSnackBar(context, snackBar: snackBar);
                   }
@@ -75,11 +70,11 @@ class HomeView extends StatelessWidget {
                       Visibility(
                         visible:
                             state.errorType == ErrorType.invalidEnteredValue,
-                        child: const Padding(
-                          padding: EdgeInsets.only(bottom: 16),
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
                           child: Text(
-                            invalidEnteredValueMessage,
-                            style: TextStyle(color: errorColor),
+                            state.errorMessage,
+                            style: const TextStyle(color: errorColor),
                           ),
                         ),
                       ),
@@ -165,7 +160,6 @@ class _LoadingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const CircularProgressIndicator(
-      backgroundColor: Colors.white,
       valueColor: AlwaysStoppedAnimation<Color>(brandColor),
     );
   }

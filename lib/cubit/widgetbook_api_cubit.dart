@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:widgetbook_challenge/api/widgetbook_api.dart';
+import 'package:widgetbook_challenge/constants/constants.dart';
 
 part 'widgetbook_api_state.dart';
 
@@ -33,6 +34,7 @@ class WidgetbookApiCubit extends Cubit<WidgetbookApiState> {
         WidgetbookApiState.fetchFailure(
           typedValue: state.typedValue,
           errorType: ErrorType.defaultApiError,
+          errorMessage: defaultApiErrorMessage,
         ),
       );
     } catch (_) {
@@ -59,6 +61,9 @@ class WidgetbookApiCubit extends Cubit<WidgetbookApiState> {
           responseValue: state.responseValue,
           isValueTyped: true,
           errorType: _isInvalidEnteredValue(message: message),
+          errorMessage: _getInvalidEnteredValue(
+            errorType: _isInvalidEnteredValue(message: message),
+          ),
         ),
       );
     }
@@ -80,5 +85,14 @@ class WidgetbookApiCubit extends Cubit<WidgetbookApiState> {
     return isInvalidEnteredValue
         ? ErrorType.invalidEnteredValue
         : ErrorType.none;
+  }
+
+  String _getInvalidEnteredValue({required ErrorType errorType}) {
+    if (errorType == ErrorType.invalidEnteredValue) {
+      return invalidEnteredValueMessage;
+    } else if (errorType == ErrorType.none) {
+      return '';
+    }
+    return defaultErrorMessage;
   }
 }

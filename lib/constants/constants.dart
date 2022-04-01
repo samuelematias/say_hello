@@ -10,12 +10,11 @@ const errorColor = Color(0xFFD21F3C);
 const defaultPaddingValue = 16.0;
 
 /// Default error message used in app
-const defaultErrorMessage = 'Something is wrong! Try again later.';
+const defaultErrorMessage = 'Something is wrong! Please, Try again later.';
 
-/// Default timeout error message used in app
-const defaultTimeOutErrorMessage =
-    'Looks like the server is taking to long to respond, '
-    'please try again.';
+/// Default API error message used in app
+const defaultApiErrorMessage =
+    'We had a Unexpected error. Please, Try again later.';
 
 /// Invalid entered value message
 const invalidEnteredValueMessage = 'This field just accept letters [A - Z].';

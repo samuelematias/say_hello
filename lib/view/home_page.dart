@@ -41,32 +41,34 @@ class HomeView extends StatelessWidget {
             ),
             child: BlocBuilder<WidgetbookApiCubit, WidgetbookApiState>(
               builder: (context, state) {
-                return Column(
-                  children: [
-                    const Text('Hello Flutter enthusiast!'),
-                    const SizedBox(height: 20),
-                    TextInputWidget(
-                      controller: controller,
-                      onChanged: (String message) => context
-                          .read<WidgetbookApiCubit>()
-                          .checkIfValueWasTyped(message: message),
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: brandColor),
-                      onPressed: state.valueTyped
-                          ? () => _getWidgetbook(
-                                context,
-                                controller,
-                                message: controller.text,
-                              )
-                          : null,
-                      child: const Text('Say, Hello!'),
-                    ),
-                    const SizedBox(height: 20),
-                    const _MessageWidget(),
-                    const SizedBox(height: 20),
-                  ],
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const Text('Hello Flutter enthusiast!'),
+                      const SizedBox(height: 20),
+                      TextInputWidget(
+                        controller: controller,
+                        onChanged: (String message) => context
+                            .read<WidgetbookApiCubit>()
+                            .checkIfValueWasTyped(message: message),
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(primary: brandColor),
+                        onPressed: state.isValueTyped
+                            ? () => _getWidgetbook(
+                                  context,
+                                  controller,
+                                  message: controller.text,
+                                )
+                            : null,
+                        child: const Text('Say, Hello!'),
+                      ),
+                      const SizedBox(height: 20),
+                      const _MessageWidget(),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
                 );
               },
             ),
@@ -119,18 +121,13 @@ class _MessageWidget extends StatelessWidget {
             ),
           );
           _showSnackBar(context, snackBar: snackBar);
-        } else if (state.value.isNotEmpty) {
-          final snackBar = SnackBar(
-            content: Text(state.value),
-          );
-          _showSnackBar(context, snackBar: snackBar);
         }
       },
       builder: (context, state) {
         if (state.isLoading) {
           return const _LoadingIndicator();
-        } else if (state.value.isNotEmpty) {
-          return Text(state.value);
+        } else if (state.responseValue.isNotEmpty) {
+          return Text(state.responseValue);
         }
         return Container();
       },

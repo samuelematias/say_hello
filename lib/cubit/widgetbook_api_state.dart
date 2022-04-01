@@ -23,8 +23,9 @@ class WidgetbookApiState extends Equatable {
   /// Creates a new instance of [WidgetbookApiState].
   const WidgetbookApiState({
     this.isLoading = false,
-    this.valueTyped = false,
-    this.value = '',
+    this.isValueTyped = false,
+    this.typedValue = '',
+    this.responseValue = '',
     this.hasError = ErrorType.none,
   });
 
@@ -32,71 +33,82 @@ class WidgetbookApiState extends Equatable {
   const WidgetbookApiState.initial()
       : this(
           isLoading: false,
-          valueTyped: false,
-          value: '',
+          isValueTyped: false,
+          typedValue: '',
+          responseValue: '',
           hasError: ErrorType.none,
         );
 
   /// Loading state of [WidgetbookApiState].
   const WidgetbookApiState.loading({
-    required String value,
+    required String typedValue,
+    required String responseValue,
   }) : this(
           isLoading: true,
-          valueTyped: false,
-          value: value,
+          isValueTyped: false,
+          typedValue: typedValue,
+          responseValue: responseValue,
           hasError: ErrorType.none,
         );
 
   /// Fetching the API give an error state of [WidgetbookApiState].
   const WidgetbookApiState.fetchFailure({
-    required String value,
+    required String typedValue,
+    required String responseValue,
     ErrorType hasError = ErrorType.defaultError,
   }) : this(
           isLoading: false,
-          valueTyped: false,
-          value: value,
+          isValueTyped: false,
+          typedValue: typedValue,
+          responseValue: responseValue,
           hasError: hasError,
         );
 
   /// Fetching the API was success state of [WidgetbookApiState].
   const WidgetbookApiState.fetchSuccess({
-    required String value,
+    required String typedValue,
+    required String responseValue,
   }) : this(
           isLoading: false,
-          valueTyped: false,
-          value: value,
+          isValueTyped: false,
+          typedValue: typedValue,
+          responseValue: responseValue,
           hasError: ErrorType.none,
         );
 
   /// The value was typed in the TextField state of [WidgetbookApiState].
-  const WidgetbookApiState.valueTyped({
-    required String value,
-    required bool valueTyped,
+  const WidgetbookApiState.typedValue({
+    required bool isValueTyped,
+    required String typedValue,
+    required String responseValue,
   }) : this(
           isLoading: false,
-          valueTyped: valueTyped,
-          value: value,
+          isValueTyped: isValueTyped,
+          typedValue: typedValue,
+          responseValue: responseValue,
           hasError: ErrorType.none,
         );
 
   /// copyWith method for the [WidgetbookApiState].
   WidgetbookApiState copyWith({
     bool? isLoading,
-    bool? valueTyped,
-    String? value,
+    bool? isValueTyped,
+    String? typedValue,
+    String? responseValue,
     ErrorType? hasError,
   }) {
     return WidgetbookApiState(
       isLoading: isLoading ?? this.isLoading,
-      valueTyped: valueTyped ?? this.valueTyped,
-      value: value ?? this.value,
+      isValueTyped: isValueTyped ?? this.isValueTyped,
+      typedValue: typedValue ?? this.typedValue,
+      responseValue: responseValue ?? this.responseValue,
       hasError: hasError ?? this.hasError,
     );
   }
 
   /// Check the initial state of [WidgetbookApiState].
   bool get isInitial =>
-      !isLoading && value.isEmpty && hasError == ErrorType.none;
+      !isLoading && responseValue.isEmpty && hasError == ErrorType.none;
 
   /// If is true, indicates that request to API is loading.
   ///
@@ -106,10 +118,13 @@ class WidgetbookApiState extends Equatable {
   /// If is true, indicates that a value was typed in the TextField.
   ///
   /// If is false, indicates that a value was not typed yet in the TextField.
-  final bool valueTyped;
+  final bool isValueTyped;
 
-  /// The value that was entered.
-  final String value;
+  /// The value that was typed.
+  final String typedValue;
+
+  /// The value that was received from the API response.
+  final String responseValue;
 
   /// If has some error in the process.
   final ErrorType hasError;
@@ -117,8 +132,9 @@ class WidgetbookApiState extends Equatable {
   @override
   List<Object> get props => [
         isLoading,
-        valueTyped,
-        value,
+        isValueTyped,
+        typedValue,
+        responseValue,
         hasError,
       ];
 }

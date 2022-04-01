@@ -17,20 +17,36 @@ class WidgetbookApiCubit extends Cubit<WidgetbookApiState> {
   /// Send the value/message to the API, and get/return the Hello message.
   Future<void> getWidgetbook({required String message}) async {
     try {
-      emit(WidgetbookApiState.loading(value: message));
+      emit(
+        WidgetbookApiState.loading(
+          typedValue: message,
+          responseValue: state.responseValue,
+        ),
+      );
       final response =
           await _widgetbookApi.welcomeToWidgetbook(message: message);
-      emit(WidgetbookApiState.fetchSuccess(value: response));
-      emit(state.copyWith(value: ''));
+      emit(
+        WidgetbookApiState.fetchSuccess(
+          typedValue: state.typedValue,
+          responseValue: response,
+        ),
+      );
+      emit(state.copyWith(typedValue: ''));
     } on UnexpectedException catch (_) {
       emit(
         WidgetbookApiState.fetchFailure(
-          value: message,
+          typedValue: state.typedValue,
+          responseValue: state.responseValue,
           hasError: ErrorType.defaultApiError,
         ),
       );
     } catch (_) {
-      emit(WidgetbookApiState.fetchFailure(value: message));
+      emit(
+        WidgetbookApiState.fetchFailure(
+          typedValue: state.typedValue,
+          responseValue: state.responseValue,
+        ),
+      );
     }
   }
 
@@ -38,16 +54,18 @@ class WidgetbookApiCubit extends Cubit<WidgetbookApiState> {
   void checkIfValueWasTyped({required String message}) {
     if (message.isEmpty) {
       emit(
-        WidgetbookApiState.valueTyped(
-          value: state.value,
-          valueTyped: false,
+        WidgetbookApiState.typedValue(
+          typedValue: message,
+          responseValue: state.responseValue,
+          isValueTyped: false,
         ),
       );
     } else {
       emit(
-        WidgetbookApiState.valueTyped(
-          value: state.value,
-          valueTyped: true,
+        WidgetbookApiState.typedValue(
+          typedValue: message,
+          responseValue: state.responseValue,
+          isValueTyped: true,
         ),
       );
     }

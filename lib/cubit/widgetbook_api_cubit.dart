@@ -17,12 +17,8 @@ class WidgetbookApiCubit extends Cubit<WidgetbookApiState> {
   /// Send the value/message to the API, and get/return the Hello message.
   Future<void> getWidgetbook({required String message}) async {
     try {
-      emit(state.copyWith(responseValue: ''));
       emit(
-        WidgetbookApiState.loading(
-          typedValue: message,
-          responseValue: state.responseValue,
-        ),
+        WidgetbookApiState.loading(typedValue: message),
       );
       final response =
           await _widgetbookApi.welcomeToWidgetbook(message: message);
@@ -32,21 +28,16 @@ class WidgetbookApiCubit extends Cubit<WidgetbookApiState> {
           responseValue: response,
         ),
       );
-      emit(state.copyWith(typedValue: ''));
     } on UnexpectedException catch (_) {
       emit(
         WidgetbookApiState.fetchFailure(
           typedValue: state.typedValue,
-          responseValue: state.responseValue,
-          hasError: ErrorType.defaultApiError,
+          errorType: ErrorType.defaultApiError,
         ),
       );
     } catch (_) {
       emit(
-        WidgetbookApiState.fetchFailure(
-          typedValue: state.typedValue,
-          responseValue: state.responseValue,
-        ),
+        WidgetbookApiState.fetchFailure(typedValue: state.typedValue),
       );
     }
   }
@@ -62,27 +53,32 @@ class WidgetbookApiCubit extends Cubit<WidgetbookApiState> {
         ),
       );
     } else {
-      /// Check if the message has Numbers or Special Character.
-      final messageHasNumberOrSpecialCharacter = message.contains(
-        RegExp(r'[`~!@#$%^&*()_+\-=?;:",.{}|\{\}\[\]\\\/<>0-9]'),
-      );
-
-      /// Check if the message has Only Blank Spaces.
-      final messageHasOnlyBlankSpaces = message.trim().isEmpty;
-
-      /// Check if the message has something invalid.
-      final invalidEnteredValue =
-          messageHasNumberOrSpecialCharacter || messageHasOnlyBlankSpaces;
       emit(
         WidgetbookApiState.typedValue(
           typedValue: message,
           responseValue: state.responseValue,
           isValueTyped: true,
-          hasError: invalidEnteredValue
-              ? ErrorType.invalidEnteredValue
-              : ErrorType.none,
+          errorType: _isInvalidEnteredValue(message: message),
         ),
       );
     }
+  }
+
+  ErrorType _isInvalidEnteredValue({required String message}) {
+    /// Check if the message has Numbers or Special Character.
+    final messageHasNumberOrSpecialCharacter = message.contains(
+      RegExp(r'[`~!@#$%^&*()_+\-=?;:",.{}|\{\}\[\]\\\/<>0-9]'),
+    );
+
+    /// Check if the message has Only Blank Spaces.
+    final messageHasOnlyBlankSpaces = message.trim().isEmpty;
+
+    /// Check if the message has something invalid.
+    final isInvalidEnteredValue =
+        messageHasNumberOrSpecialCharacter || messageHasOnlyBlankSpaces;
+
+    return isInvalidEnteredValue
+        ? ErrorType.invalidEnteredValue
+        : ErrorType.none;
   }
 }

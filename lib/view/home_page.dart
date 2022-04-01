@@ -34,34 +34,52 @@ class HomeView extends StatelessWidget {
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: Padding(
             padding: const EdgeInsets.only(
-              left: 16,
-              top: 16,
-              right: 16,
+              left: defaultPaddingValue,
+              top: defaultPaddingValue,
+              right: defaultPaddingValue,
             ),
-            child: BlocBuilder<WidgetbookApiCubit, WidgetbookApiState>(
-              builder: (context, state) {
-                final disabledButton = !state.isValueTyped ||
-                    state.hasError == ErrorType.invalidEnteredValue;
-                return SingleChildScrollView(
-                  child: Column(
+            child: SingleChildScrollView(
+              child: BlocConsumer<WidgetbookApiCubit, WidgetbookApiState>(
+                listener: (context, state) {
+                  if (state.errorType == ErrorType.defaultError) {
+                    const snackBar = SnackBar(
+                      content: Text(defaultErrorMessage),
+                    );
+                    _showSnackBar(context, snackBar: snackBar);
+                  } else if (state.errorType == ErrorType.defaultApiError) {
+                    const snackBar = SnackBar(
+                      content: Text(defaultErrorMessage),
+                    );
+                    _showSnackBar(context, snackBar: snackBar);
+                  } else if (state.errorType == ErrorType.timeOut) {
+                    const snackBar = SnackBar(
+                      content: Text(defaultTimeOutErrorMessage),
+                    );
+                    _showSnackBar(context, snackBar: snackBar);
+                  }
+                },
+                builder: (context, state) {
+                  final disabledButton = !state.isValueTyped ||
+                      state.errorType == ErrorType.invalidEnteredValue;
+                  return Column(
                     children: [
                       const Text('Hello Flutter enthusiast!'),
-                      const SizedBox(height: 20),
+                      const _VerticalSpacing(),
                       TextInputWidget(
                         controller: controller,
                         onChanged: (String message) => context
                             .read<WidgetbookApiCubit>()
                             .checkIfValueWasTyped(message: message),
                       ),
-                      const SizedBox(height: 20),
+                      const _VerticalSpacing(),
                       Visibility(
                         visible:
-                            state.hasError == ErrorType.invalidEnteredValue,
+                            state.errorType == ErrorType.invalidEnteredValue,
                         child: const Padding(
                           padding: EdgeInsets.only(bottom: 16),
                           child: Text(
-                            'This field just accept letters [A - Z].',
-                            style: TextStyle(color: Colors.red),
+                            invalidEnteredValueMessage,
+                            style: TextStyle(color: errorColor),
                           ),
                         ),
                       ),
@@ -76,19 +94,22 @@ class HomeView extends StatelessWidget {
                                 ),
                         child: const Text('Say, Hello!'),
                       ),
-                      const SizedBox(height: 20),
-                      const _MessageWidget(),
-                      const SizedBox(height: 20),
+                      const _VerticalSpacing(),
+                      _MessageWidget(state: state),
+                      const _VerticalSpacing(),
                     ],
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
         ),
       ),
     );
   }
+
+  void _showSnackBar(BuildContext context, {required SnackBar snackBar}) =>
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
   void _getWidgetbook(
     BuildContext context,
@@ -104,45 +125,36 @@ class HomeView extends StatelessWidget {
 /// The widget responsible for creating the MessageWidget.
 class _MessageWidget extends StatelessWidget {
   /// Creates a new instance of [_MessageWidget].
-  const _MessageWidget({Key? key}) : super(key: key);
+  const _MessageWidget({
+    Key? key,
+    required this.state,
+  }) : super(key: key);
 
+  final WidgetbookApiState state;
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<WidgetbookApiCubit, WidgetbookApiState>(
-      listener: (context, state) {
-        if (state.hasError == ErrorType.defaultError) {
-          const snackBar = SnackBar(
-            content: Text('Something is wrong! Try again later.'),
-          );
-          _showSnackBar(context, snackBar: snackBar);
-        } else if (state.hasError == ErrorType.defaultApiError) {
-          const snackBar = SnackBar(
-            content: Text('Something is wrong! Try again later.'),
-          );
-          _showSnackBar(context, snackBar: snackBar);
-        } else if (state.hasError == ErrorType.timeOut) {
-          const snackBar = SnackBar(
-            content: Text(
-              'Looks like the server is taking to long to respond, '
-              'please try again.',
-            ),
-          );
-          _showSnackBar(context, snackBar: snackBar);
-        }
-      },
-      builder: (context, state) {
-        if (state.isLoading) {
-          return const _LoadingIndicator();
-        } else if (state.responseValue.isNotEmpty) {
-          return Text(state.responseValue);
-        }
-        return Container();
-      },
-    );
+    if (state.isLoading) {
+      return const _LoadingIndicator();
+    } else if (state.responseValue.isNotEmpty) {
+      return Text(state.responseValue);
+    }
+    return Container();
   }
+}
 
-  void _showSnackBar(BuildContext context, {required SnackBar snackBar}) =>
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+/// Widget responsible for creating the spaces between the widgets
+class _VerticalSpacing extends StatelessWidget {
+  /// Creates a new instance of [_VerticalSpacing].
+  const _VerticalSpacing({
+    Key? key,
+    this.height = 20.0,
+  }) : super(key: key);
+
+  final double height;
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(height: height);
+  }
 }
 
 /// The widget responsible for creating the LoadingIndicator.

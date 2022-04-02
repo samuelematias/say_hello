@@ -1,10 +1,13 @@
 import 'package:flutter/painting.dart';
 
-/// Color representing the brand in the app
+/// Color that representing widgets with our brand in the app
 const brandColor = Color(0xFF772CE8);
 
-/// Color representing errors in the app
+/// Color that representing widgets with errors in the app
 const errorColor = Color(0xFFD21F3C);
+
+/// Color that representing widgets disabled in the app
+const disabledColor = Color(0xFFA9A9A9);
 
 /// Default padding value used in app
 const defaultPaddingValue = 16.0;

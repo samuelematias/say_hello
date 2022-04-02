@@ -62,6 +62,7 @@ class HomeView extends StatelessWidget {
                       const _VerticalSpacing(),
                       TextInputWidget(
                         controller: controller,
+                        enabled: !state.isLoading,
                         onChanged: (String message) => context
                             .read<WidgetbookApiCubit>()
                             .checkIfValueWasTyped(message: message),

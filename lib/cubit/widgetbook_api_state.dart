@@ -26,7 +26,8 @@ class WidgetbookApiState extends Equatable {
     this.isValueTyped = false,
     this.typedValue = '',
     this.responseValue = '',
-    this.hasError = ErrorType.none,
+    this.errorType = ErrorType.none,
+    this.errorMessage = '',
   });
 
   /// Initial state of [WidgetbookApiState].
@@ -36,32 +37,36 @@ class WidgetbookApiState extends Equatable {
           isValueTyped: false,
           typedValue: '',
           responseValue: '',
-          hasError: ErrorType.none,
+          errorType: ErrorType.none,
+          errorMessage: '',
         );
 
   /// Loading state of [WidgetbookApiState].
   const WidgetbookApiState.loading({
     required String typedValue,
-    required String responseValue,
+    String responseValue = '',
   }) : this(
           isLoading: true,
           isValueTyped: false,
           typedValue: typedValue,
           responseValue: responseValue,
-          hasError: ErrorType.none,
+          errorType: ErrorType.none,
+          errorMessage: '',
         );
 
   /// Fetching the API give an error state of [WidgetbookApiState].
   const WidgetbookApiState.fetchFailure({
     required String typedValue,
-    required String responseValue,
-    ErrorType hasError = ErrorType.defaultError,
+    String responseValue = '',
+    ErrorType errorType = ErrorType.defaultError,
+    String errorMessage = defaultErrorMessage,
   }) : this(
           isLoading: false,
           isValueTyped: false,
           typedValue: typedValue,
           responseValue: responseValue,
-          hasError: hasError,
+          errorType: errorType,
+          errorMessage: errorMessage,
         );
 
   /// Fetching the API was success state of [WidgetbookApiState].
@@ -73,7 +78,8 @@ class WidgetbookApiState extends Equatable {
           isValueTyped: false,
           typedValue: typedValue,
           responseValue: responseValue,
-          hasError: ErrorType.none,
+          errorType: ErrorType.none,
+          errorMessage: '',
         );
 
   /// The value was typed in the TextField state of [WidgetbookApiState].
@@ -81,13 +87,15 @@ class WidgetbookApiState extends Equatable {
     required bool isValueTyped,
     required String typedValue,
     required String responseValue,
-    ErrorType hasError = ErrorType.none,
+    ErrorType errorType = ErrorType.none,
+    String errorMessage = '',
   }) : this(
           isLoading: false,
           isValueTyped: isValueTyped,
           typedValue: typedValue,
           responseValue: responseValue,
-          hasError: hasError,
+          errorType: errorType,
+          errorMessage: errorMessage,
         );
 
   /// copyWith method for the [WidgetbookApiState].
@@ -96,14 +104,16 @@ class WidgetbookApiState extends Equatable {
     bool? isValueTyped,
     String? typedValue,
     String? responseValue,
-    ErrorType? hasError,
+    ErrorType? errorType,
+    String? errorMessage,
   }) {
     return WidgetbookApiState(
       isLoading: isLoading ?? this.isLoading,
       isValueTyped: isValueTyped ?? this.isValueTyped,
       typedValue: typedValue ?? this.typedValue,
       responseValue: responseValue ?? this.responseValue,
-      hasError: hasError ?? this.hasError,
+      errorType: errorType ?? this.errorType,
+      errorMessage: errorMessage ?? this.errorMessage,
     );
   }
 
@@ -124,7 +134,10 @@ class WidgetbookApiState extends Equatable {
   final String responseValue;
 
   /// If has some error in the process.
-  final ErrorType hasError;
+  final ErrorType errorType;
+
+  /// Contains [errorMessage] from the [errorType].
+  final String errorMessage;
 
   @override
   List<Object> get props => [
@@ -132,6 +145,7 @@ class WidgetbookApiState extends Equatable {
         isValueTyped,
         typedValue,
         responseValue,
-        hasError,
+        errorType,
+        errorMessage,
       ];
 }

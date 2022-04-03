@@ -1,48 +1,96 @@
-# Widgetbook Challenge
+<!-- header section -->
+<p align="center">
+  <br/>
+  <span><b>Say, Hello! 👋🏿 </b></span><br/>
+</p>
+<!-- header section END -->
 
-This flutter app represents a coding challenge for Flutter enthusiasts applying for a job at [Widgetbook](https://widgetbook.io). 
+<br/>
 
-If you just stumbled upon this repository for any other reason, you are welcome to participate in the challenge to cure your boredom. But make sure to send us an application after finishing 💪🏻
+<!-- show case/gif section -->
 
-## Requirements
+![](./readme_content/gifs/say_hello_app_preview.gif)
 
-The app has been created with `flutter 2.10.3` (`dart 2.16.1`).
+<!-- show case/gif section END -->
 
-## Assignment
+<!-- about app and course section -->
 
-In this coding challenge, you will implement an application which accepts an input from the user and sends the input to a simulated backend. The flow of the user is the following:
+## About this App 🗣
 
-1. The user is greeted on the home screen with the provided `Scaffold` which hosts a `TextField` and a submission `Button`. 
-1. The user inserts a name into the `TextField` and presses the `Button` to send the request to the simulated backend.
-1. The application computes the request, while the UI waits for the response. 
-1. Once the request finished, the message of the response is shown in the UI below the submission button. If any error occurs while requesting from the server, an error message is shown instead.
+This app was developed from a challenge, for more information, read [this document](CHALLENGER.md).
+<br/>
+in this app, you type a value in the TextField and its return will be `"Hello $yourEnteredValue"`.
 
-## Tasks
+As for what can be typed into the TextField, consider that:
+<br/>
+- Numbers are not allowed;
+<br/>
+- Special characters are not allowed;
+<br/>
+- Only blank spaces are not allowed;
+<br/>
+- Letters [A-Z] are allowed;
+<br/>
 
-1. Read this documentation.
-1. Clone (do not fork) the repository.
-1. Understand the provided code.
-1. Implement a `TextField` accepting a `name`.
-    - make sure to verify that no invalid input (e.g. numbers) has been inserted!
-1. Implement a `Button`.
-1. Implement the compution of the request whenever the `onPressed` of the button is triggered.
-1. Show the response of the simulated backend.
-1. Upload your code to a new repository 
-    - do not create a fork
-    - do not create a pull request
-1. send us the link to your repository with the solution
-    - if you don't like the idea of your solution to be publicly available make sure to create a private repository and invite [JensHor](https://github.com/jenshor).
+## Running the project locally 🗣
+1. Clone this repository into your machine:
 
-## Additional info
+```bash
+git clone https://github.com/samuelematias/say_hello
+```
+2. With the repository cloned, open the repository root in your terminal and run the command:
 
-- You are allowed to use any package available on [pub.dev](https://pub.dev).
-- You are allowed to create additional `Widget`s and classes.
-- We do not expect a fancy design. For UI components, you can use Material or Cupertino widgets. 
-- Please do not modify the `WidgetbookApi` class.
-- Make sure to submit a solution from which you'd say that it is embracing standard software development patterns and practices. 
+```bash
+flutter pub get
+```
+With FVM:
 
-## Questions?
+```bash
+fvm flutter pub get
+```
+3. Everything working fine, without any errors, run the app with the following command:
 
-- If you have any questions regarding this assignment, let us know within an issue!
+```bash
+flutter run
+```
+With FVM:
 
-## Have fun! 
+```bash
+fvm flutter run
+```
+
+4. Have fun!
+
+## Tech Stack 👩🏾‍💻
+
+> 💪 Building with sound null safety 💪
+
+- [Dart - 2.16.1](https://dart.dev/)
+- [Flutter - 2.10.3](https://flutter.dev/)
+ 
+> Aren't you in this Flutter/Dart vesion? Consider taking a look at [FVM](https://fvm.app/), I believe it can help you at this point 😉.
+
+## Plugins 📟
+
+- [equatable](https://pub.dev/packages/equatable)
+- [flutter_bloc](https://pub.dev/packages/flutter_bloc)
+- [bloc_test](https://pub.dev/packages/bloc_test)
+- [mocktail](https://pub.dev/packages/mocktail)
+- [very_good_analysis](https://pub.dev/packages/very_good_analysis)
+
+## Tools 🛠
+
+- [hover](https://github.com/go-flutter-desktop/hover)
+
+## About me
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+<table>
+  <tr>
+    <td align="center"><a href="https://twitter.com/samuelematias"><img src="./readme_content/imgs/samuca.jpg" width="100px;" alt="Samuel Matias"/><br /><sub><b>Samuel Matias</b></sub></a><br /><a href="https://github.com/samuelematias"title="Code">💻</a><a href="https://github.com/samuelematias"title="Design"> 🎨</a></td></td>
+</table>
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+<!-- about app and course section END -->

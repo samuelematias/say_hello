@@ -98,8 +98,10 @@ class HomeView extends StatelessWidget {
     TextEditingController controller, {
     required String message,
   }) {
-    context.read<WidgetbookApiCubit>().getWidgetbook(message: message);
-    controller.clear();
+    context
+        .read<WidgetbookApiCubit>()
+        .getWidgetbook(message: message)
+        .then((_) => controller.clear());
     FocusManager.instance.primaryFocus?.unfocus();
   }
 }

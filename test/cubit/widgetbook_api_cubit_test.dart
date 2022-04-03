@@ -41,6 +41,7 @@ void main() {
               .called(1);
         },
       );
+
       blocTest<WidgetbookApiCubit, WidgetbookApiState>(
         'emits [loading, success] when widgetbookApi succeeds',
         build: () {
@@ -60,6 +61,7 @@ void main() {
           ),
         ],
       );
+
       blocTest<WidgetbookApiCubit, WidgetbookApiState>(
         'emits [loading, failure] when widgetbookApi throws (defaultError)',
         build: () {
@@ -84,6 +86,7 @@ void main() {
           ),
         ],
       );
+
       blocTest<WidgetbookApiCubit, WidgetbookApiState>(
         'emits [loading, failure] when widgetbookApi throws (defaultApiError)',
         build: () {
@@ -104,6 +107,7 @@ void main() {
           ),
         ],
       );
+
       blocTest<WidgetbookApiCubit, WidgetbookApiState>(
         'emits [typedValue] with isValueTyped = false '
         'while a value is not entered in the TextField',
@@ -123,6 +127,7 @@ void main() {
           ),
         ],
       );
+
       blocTest<WidgetbookApiCubit, WidgetbookApiState>(
         'emits [typedValue] with isValueTyped = true '
         'while a value is entered in the TextField '
@@ -149,6 +154,7 @@ void main() {
           ),
         ],
       );
+
       blocTest<WidgetbookApiCubit, WidgetbookApiState>(
         'emits [typedValue] with isValueTyped = true '
         'while a value is entered in the TextField (containing numbers)',
@@ -164,6 +170,7 @@ void main() {
           ),
         ],
       );
+
       blocTest<WidgetbookApiCubit, WidgetbookApiState>(
         'emits [typedValue] with isValueTyped = true '
         'while a value is entered in the TextField '
@@ -180,6 +187,7 @@ void main() {
           ),
         ],
       );
+
       blocTest<WidgetbookApiCubit, WidgetbookApiState>(
         'emits [typedValue] with isValueTyped = true '
         'while a value is entered in the TextField '

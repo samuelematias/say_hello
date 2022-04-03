@@ -39,20 +39,7 @@ class HomeView extends StatelessWidget {
               right: defaultPaddingValue,
             ),
             child: SingleChildScrollView(
-              child: BlocConsumer<WidgetbookApiCubit, WidgetbookApiState>(
-                listener: (context, state) {
-                  if (state.errorType == ErrorType.defaultError) {
-                    final snackBar = SnackBar(
-                      content: Text(state.errorMessage),
-                    );
-                    _showSnackBar(context, snackBar: snackBar);
-                  } else if (state.errorType == ErrorType.defaultApiError) {
-                    final snackBar = SnackBar(
-                      content: Text(state.errorMessage),
-                    );
-                    _showSnackBar(context, snackBar: snackBar);
-                  }
-                },
+              child: BlocBuilder<WidgetbookApiCubit, WidgetbookApiState>(
                 builder: (context, state) {
                   final disabledButton = !state.isValueTyped ||
                       state.errorType == ErrorType.invalidEnteredValue;
@@ -75,11 +62,13 @@ class HomeView extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 16),
                           child: Text(
                             state.errorMessage,
-                            style: const TextStyle(color: errorColor),
+                            key: invalidEnteredValueWidgetKey,
+                            style: const TextStyle(color: warningColor),
                           ),
                         ),
                       ),
                       ElevatedButton(
+                        key: confirmButtonWidgetKey,
                         style: ElevatedButton.styleFrom(primary: brandColor),
                         onPressed: disabledButton
                             ? null
@@ -103,9 +92,6 @@ class HomeView extends StatelessWidget {
       ),
     );
   }
-
-  void _showSnackBar(BuildContext context, {required SnackBar snackBar}) =>
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
   void _getWidgetbook(
     BuildContext context,
@@ -132,7 +118,22 @@ class _MessageWidget extends StatelessWidget {
     if (state.isLoading) {
       return const _LoadingIndicator();
     } else if (state.responseValue.isNotEmpty) {
-      return Text(state.responseValue);
+      return Text(
+        state.responseValue,
+        key: messageSuccessWidgetKey,
+      );
+    } else if (state.errorType == ErrorType.defaultApiError) {
+      return Text(
+        state.errorMessage,
+        key: defaultApiErrorWidgetKey,
+        style: const TextStyle(color: errorColor),
+      );
+    } else if (state.errorType == ErrorType.defaultError) {
+      return Text(
+        state.errorMessage,
+        key: defaultErrorWidgetKey,
+        style: const TextStyle(color: errorColor),
+      );
     }
     return Container();
   }
@@ -161,6 +162,7 @@ class _LoadingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const CircularProgressIndicator(
+      key: homePageLoadingIndicatorWidgetKey,
       valueColor: AlwaysStoppedAnimation<Color>(brandColor),
     );
   }

@@ -61,7 +61,7 @@ class WidgetbookApiCubit extends Cubit<WidgetbookApiState> {
           responseValue: state.responseValue,
           isValueTyped: true,
           errorType: _isInvalidEnteredValue(message: message),
-          errorMessage: _getInvalidEnteredValue(
+          errorMessage: _getInvalidEnteredValueErrorMessage(
             errorType: _isInvalidEnteredValue(message: message),
           ),
         ),
@@ -87,7 +87,7 @@ class WidgetbookApiCubit extends Cubit<WidgetbookApiState> {
         : ErrorType.none;
   }
 
-  String _getInvalidEnteredValue({required ErrorType errorType}) {
+  String _getInvalidEnteredValueErrorMessage({required ErrorType errorType}) {
     if (errorType == ErrorType.invalidEnteredValue) {
       return invalidEnteredValueMessage;
     } else if (errorType == ErrorType.none) {

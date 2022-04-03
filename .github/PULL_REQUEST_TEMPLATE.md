@@ -10,6 +10,10 @@
 
 <!--- Describe your changes in detail -->
 
+## Preview
+
+<!--- Printscreens/GIFS/Videos -->
+
 ## Type of Change
 
 <!--- Put an `x` in all the boxes that apply: -->
@@ -20,4 +24,5 @@
 - [ ] 🧹 Code refactor
 - [ ] ✅ Build configuration change
 - [ ] 📝 Documentation
+- [ ] 🧪 Test
 - [ ] 🗑️ Chore

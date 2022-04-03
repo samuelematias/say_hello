@@ -93,9 +93,6 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  void _showSnackBar(BuildContext context, {required SnackBar snackBar}) =>
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
   void _getWidgetbook(
     BuildContext context,
     TextEditingController controller, {

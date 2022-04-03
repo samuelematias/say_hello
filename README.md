@@ -9,7 +9,10 @@
 
 <!-- show case/gif section -->
 
-![](./readme_content/gifs/say_hello_app_preview.gif)
+<p align="center">
+  <img src="./readme_content/gifs/say_hello_app_preview.gif" alt="acquisition_flow"  height="700">
+  <br/>
+</p>
 
 <!-- show case/gif section END -->
 
@@ -22,17 +25,17 @@ This app was developed from a challenge, for more information, read [this docume
 in this app, you type a value in the TextField and its return will be `"Hello $yourEnteredValue"`.
 
 As for what can be typed into the TextField, consider that:
-<br/>
-- Numbers are not allowed;
-<br/>
-- Special characters are not allowed;
-<br/>
-- Only blank spaces are not allowed;
-<br/>
-- Letters [A-Z] are allowed;
-<br/>
 
-## Running the project locally 🗣
+- Letters [A-Z] **are allowed**;
+- Numbers **are not allowed**;
+- Special characters **are not allowed**;
+- Only blank spaces **are not allowed**;
+
+This project has a simple CI pipeline, to analyze the code and run the unit and widget tests.
+<br/>
+For more information, check the [ci.yaml](https://github.com/samuelematias/say_hello/blob/main/.github/workflows/ci.yml) file, which has the whole process in detail, step by step.
+
+## Running the project locally 🔨
 1. Clone this repository into your machine:
 
 ```bash
@@ -88,7 +91,7 @@ fvm flutter run
 <!-- prettier-ignore -->
 <table>
   <tr>
-    <td align="center"><a href="https://twitter.com/samuelematias"><img src="./readme_content/imgs/samuca.jpg" width="100px;" alt="Samuel Matias"/><br /><sub><b>Samuel Matias</b></sub></a><br /><a href="https://github.com/samuelematias"title="Code">💻</a><a href="https://github.com/samuelematias"title="Design"> 🎨</a></td></td>
+    <td align="center"><a href="https://twitter.com/samuelematias"><img src="./readme_content/imgs/samuca.jpg" width="100px;" alt="Samuel Matias"/><br /><sub><b>Samuel Matias</b></sub></a><br /><a href="https://www.linkedin.com/in/samuelematias/"title="Code">💻</a><a href="https://linktr.ee/samuelematias"title="Design"> 🎨</a></td></td>
 </table>
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->

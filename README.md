@@ -73,7 +73,7 @@ fvm flutter run
  
 > Aren't you in this Flutter/Dart vesion? Consider taking a look at [FVM](https://fvm.app/), I believe it can help you at this point 😉.
 
-## Plugins 📟
+## Packages/Plugins 📟
 
 - [equatable](https://pub.dev/packages/equatable)
 - [flutter_bloc](https://pub.dev/packages/flutter_bloc)
@@ -85,7 +85,7 @@ fvm flutter run
 
 - [hover](https://github.com/go-flutter-desktop/hover)
 
-## About me
+## About me 🙋🏾‍♂️
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->

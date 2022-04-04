@@ -10,7 +10,7 @@
 <!-- show case/gif section -->
 
 <p align="center">
-  <img src="./readme_content/gifs/say_hello_app_preview.gif" alt="acquisition_flow"  height="700">
+  <img src="./readme_content/gifs/say_hello_app_preview.gif" alt="say_hello"  height="700">
   <br/>
 </p>
 
@@ -39,7 +39,7 @@ For more information, check the [ci.yaml](https://github.com/samuelematias/say_h
 1. Clone this repository into your machine:
 
 ```bash
-git clone https://github.com/samuelematias/say_hello
+git clone https://github.com/samuelematias/say_hello.git
 ```
 2. With the repository cloned, open the repository root in your terminal and run the command:
 

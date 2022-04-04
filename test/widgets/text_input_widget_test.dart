@@ -21,28 +21,22 @@ void main() {
       final findWidgetByType = find.byType(TextInputWidget);
       final widget = tester.widget<TextInputWidget>(findWidgetByType);
 
-      final descendantWidget = tester.widget<Icon>(
-        find.descendant(
-          of: find.byType(TextInputWidget),
-          matching: find.byType(Icon),
-        ),
-      );
-
       final descendantWidgetFinder = find.descendant(
-        of: find.byType(TextInputWidget),
+        of: findWidgetByType,
         matching: find.byType(Icon),
       );
 
-      final ancestorWidget = tester.widget<TextField>(
-        find.descendant(
-          of: find.byType(TextInputWidget),
-          matching: find.byType(TextField),
-        ),
+      final descendantWidget = tester.widget<Icon>(
+        descendantWidgetFinder,
       );
 
       final ancestorWidgetFinder = find.descendant(
-        of: find.byType(TextInputWidget),
+        of: findWidgetByType,
         matching: find.byType(TextField),
+      );
+
+      final ancestorWidget = tester.widget<TextField>(
+        ancestorWidgetFinder,
       );
 
       expect(findWidgetByType, findsOneWidget);
@@ -67,28 +61,22 @@ void main() {
       final findWidgetByType = find.byType(TextInputWidget);
       final widget = tester.widget<TextInputWidget>(findWidgetByType);
 
-      final descendantWidget = tester.widget<Icon>(
-        find.descendant(
-          of: find.byType(TextInputWidget),
-          matching: find.byType(Icon),
-        ),
-      );
-
       final descendantWidgetFinder = find.descendant(
-        of: find.byType(TextInputWidget),
+        of: findWidgetByType,
         matching: find.byType(Icon),
       );
 
-      final ancestorWidget = tester.widget<TextField>(
-        find.descendant(
-          of: find.byType(TextInputWidget),
-          matching: find.byType(TextField),
-        ),
+      final descendantWidget = tester.widget<Icon>(
+        descendantWidgetFinder,
       );
 
       final ancestorWidgetFinder = find.descendant(
-        of: find.byType(TextInputWidget),
+        of: findWidgetByType,
         matching: find.byType(TextField),
+      );
+
+      final ancestorWidget = tester.widget<TextField>(
+        ancestorWidgetFinder,
       );
 
       expect(findWidgetByType, findsOneWidget);
@@ -195,7 +183,7 @@ void main() {
 
       final descendantWidget = tester.widget<Icon>(
         find.descendant(
-          of: find.byType(TextInputWidget),
+          of: textInputWidget,
           matching: find.byWidget(trailingIcon),
         ),
       );

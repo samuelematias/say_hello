@@ -26,21 +26,29 @@ void main() {
 
     setUp(() {
       widgetbookApiCubit = MockWidgetbookApiCubit();
-      when(() => widgetbookApiCubit.state)
-          .thenReturn(const WidgetbookApiState.initial());
+    });
+
+    tearDown(() {
+      widgetbookApiCubit.close();
     });
 
     testWidgets(
       'renders LoadingIndicator when state is loading',
       (tester) async {
-        when(() => widgetbookApiCubit.state).thenReturn(
-          const WidgetbookApiState.loading(typedValue: message),
+        whenListen(
+          widgetbookApiCubit,
+          Stream.value(
+            const WidgetbookApiState.loading(typedValue: message),
+          ),
+          initialState: const WidgetbookApiState.initial(),
         );
 
         await tester.pumpAppWithBlocProvider(
           const HomePage(),
           widgetbookApiCubit: widgetbookApiCubit,
         );
+
+        await tester.pump();
 
         expect(
           find.byKey(homePageLoadingIndicatorWidgetKey),
@@ -53,17 +61,23 @@ void main() {
       'renders the Response value (Hello + typedValue) '
       'on success case when state is fetchSuccess',
       (tester) async {
-        when(() => widgetbookApiCubit.state).thenReturn(
-          const WidgetbookApiState.fetchSuccess(
-            typedValue: message,
-            responseValue: successMessage,
+        whenListen(
+          widgetbookApiCubit,
+          Stream.value(
+            const WidgetbookApiState.fetchSuccess(
+              typedValue: message,
+              responseValue: successMessage,
+            ),
           ),
+          initialState: const WidgetbookApiState.initial(),
         );
 
         await tester.pumpAppWithBlocProvider(
           const HomePage(),
           widgetbookApiCubit: widgetbookApiCubit,
         );
+
+        await tester.pump();
 
         final findMessageSuccessWidgetByKey =
             find.byKey(messageSuccessWidgetKey);
@@ -74,6 +88,7 @@ void main() {
         );
 
         await tester.pump();
+
         final widget = tester.widget<Text>(findMessageSuccessWidgetByKey);
 
         expect(widget.data, successMessage);
@@ -84,10 +99,14 @@ void main() {
       'renders Error message with defaultError '
       'on failure case when state is fetchFailure',
       (tester) async {
-        when(() => widgetbookApiCubit.state).thenReturn(
-          const WidgetbookApiState.fetchFailure(
-            typedValue: message,
+        whenListen(
+          widgetbookApiCubit,
+          Stream.value(
+            const WidgetbookApiState.fetchFailure(
+              typedValue: message,
+            ),
           ),
+          initialState: const WidgetbookApiState.initial(),
         );
 
         await tester.pumpAppWithBlocProvider(
@@ -95,16 +114,18 @@ void main() {
           widgetbookApiCubit: widgetbookApiCubit,
         );
 
-        final findSnackBarDefaultErrorByKey = find.byKey(defaultErrorWidgetKey);
+        await tester.pump();
+
+        final findDefaultErrorByKey = find.byKey(defaultErrorWidgetKey);
 
         expect(
-          findSnackBarDefaultErrorByKey,
+          findDefaultErrorByKey,
           findsOneWidget,
         );
 
         await tester.pump();
 
-        final widget = tester.widget<Text>(findSnackBarDefaultErrorByKey);
+        final widget = tester.widget<Text>(findDefaultErrorByKey);
 
         expect(widget.data, defaultErrorMessage);
       },
@@ -114,12 +135,16 @@ void main() {
       'renders Error message with defaultApiError '
       'on failure case when state is fetchFailure',
       (tester) async {
-        when(() => widgetbookApiCubit.state).thenReturn(
-          const WidgetbookApiState.fetchFailure(
-            typedValue: message,
-            errorType: ErrorType.defaultApiError,
-            errorMessage: defaultApiErrorMessage,
+        whenListen(
+          widgetbookApiCubit,
+          Stream.value(
+            const WidgetbookApiState.fetchFailure(
+              typedValue: message,
+              errorType: ErrorType.defaultApiError,
+              errorMessage: defaultApiErrorMessage,
+            ),
           ),
+          initialState: const WidgetbookApiState.initial(),
         );
 
         await tester.pumpAppWithBlocProvider(
@@ -127,18 +152,19 @@ void main() {
           widgetbookApiCubit: widgetbookApiCubit,
         );
 
-        final findSnackBarDefaultApiErrorWidgetByKey =
+        await tester.pump();
+
+        final findDefaultApiErrorWidgetByKey =
             find.byKey(defaultApiErrorWidgetKey);
 
         expect(
-          findSnackBarDefaultApiErrorWidgetByKey,
+          findDefaultApiErrorWidgetByKey,
           findsOneWidget,
         );
 
         await tester.pump();
 
-        final widget =
-            tester.widget<Text>(findSnackBarDefaultApiErrorWidgetByKey);
+        final widget = tester.widget<Text>(findDefaultApiErrorWidgetByKey);
 
         expect(widget.data, defaultApiErrorMessage);
       },
@@ -149,18 +175,16 @@ void main() {
       'while a value is not entered in the TextField '
       'and state is typedValue',
       (tester) async {
-        when(() => widgetbookApiCubit.state).thenReturn(
-          const WidgetbookApiState.typedValue(
-            typedValue: '',
-            isValueTyped: false,
-            responseValue: '',
-
-            /// This lint rule was ignore here,
-            /// because it is necessary to guarantee
-            /// in the test that it is really this value.
-            // ignore: avoid_redundant_argument_values
-            errorType: ErrorType.none,
+        whenListen(
+          widgetbookApiCubit,
+          Stream.value(
+            const WidgetbookApiState.typedValue(
+              typedValue: '',
+              isValueTyped: false,
+              responseValue: '',
+            ),
           ),
+          initialState: const WidgetbookApiState.initial(),
         );
 
         await tester.pumpAppWithBlocProvider(
@@ -168,11 +192,20 @@ void main() {
           widgetbookApiCubit: widgetbookApiCubit,
         );
 
+        await tester.pump();
+
         final findInvalidEnteredValueWidgetByKey =
             find.byKey(invalidEnteredValueWidgetKey);
 
         expect(
           findInvalidEnteredValueWidgetByKey,
+          findsNothing,
+        );
+
+        final findDefaultErrorByKey = find.byKey(defaultErrorWidgetKey);
+
+        expect(
+          findDefaultErrorByKey,
           findsNothing,
         );
       },
@@ -184,24 +217,16 @@ void main() {
       '(containing only valid entered values) '
       'and state is typedValue',
       (tester) async {
-        when(() => widgetbookApiCubit.state).thenReturn(
-          const WidgetbookApiState.typedValue(
-            typedValue: message,
-            isValueTyped: true,
-            responseValue: '',
-
-            /// This lint rule was ignore here,
-            /// because it is necessary to guarantee
-            /// in the test that it is really this value.
-            // ignore: avoid_redundant_argument_values
-            errorType: ErrorType.none,
-
-            /// This lint rule was ignore here,
-            /// because it is necessary to guarantee
-            /// in the test that it is really this value.
-            // ignore: avoid_redundant_argument_values
-            errorMessage: '',
+        whenListen(
+          widgetbookApiCubit,
+          Stream.value(
+            const WidgetbookApiState.typedValue(
+              typedValue: message,
+              isValueTyped: true,
+              responseValue: '',
+            ),
           ),
+          initialState: const WidgetbookApiState.initial(),
         );
 
         await tester.pumpAppWithBlocProvider(
@@ -209,11 +234,20 @@ void main() {
           widgetbookApiCubit: widgetbookApiCubit,
         );
 
+        await tester.pump();
+
         final findInvalidEnteredValueWidgetByKey =
             find.byKey(invalidEnteredValueWidgetKey);
 
         expect(
           findInvalidEnteredValueWidgetByKey,
+          findsNothing,
+        );
+
+        final findDefaultErrorByKey = find.byKey(defaultErrorWidgetKey);
+
+        expect(
+          findDefaultErrorByKey,
           findsNothing,
         );
       },
@@ -224,20 +258,26 @@ void main() {
       'while a value is entered in the TextField (containing numbers) '
       'and state is typedValue',
       (tester) async {
-        when(() => widgetbookApiCubit.state).thenReturn(
-          const WidgetbookApiState.typedValue(
-            typedValue: '$message 34',
-            isValueTyped: true,
-            responseValue: '',
-            errorType: ErrorType.invalidEnteredValue,
-            errorMessage: invalidEnteredValueMessage,
+        whenListen(
+          widgetbookApiCubit,
+          Stream.value(
+            const WidgetbookApiState.typedValue(
+              typedValue: '$message 34',
+              isValueTyped: true,
+              responseValue: '',
+              errorType: ErrorType.invalidEnteredValue,
+              errorMessage: invalidEnteredValueMessage,
+            ),
           ),
+          initialState: const WidgetbookApiState.initial(),
         );
 
         await tester.pumpAppWithBlocProvider(
           const HomePage(),
           widgetbookApiCubit: widgetbookApiCubit,
         );
+
+        await tester.pump();
 
         final findInvalidEnteredValueWidgetByKey =
             find.byKey(invalidEnteredValueWidgetKey);
@@ -261,20 +301,26 @@ void main() {
       '(containing special characters) '
       'and state is typedValue',
       (tester) async {
-        when(() => widgetbookApiCubit.state).thenReturn(
-          const WidgetbookApiState.typedValue(
-            typedValue: '$message /_,.?',
-            isValueTyped: true,
-            responseValue: '',
-            errorType: ErrorType.invalidEnteredValue,
-            errorMessage: invalidEnteredValueMessage,
+        whenListen(
+          widgetbookApiCubit,
+          Stream.value(
+            const WidgetbookApiState.typedValue(
+              typedValue: '$message /_,.?',
+              isValueTyped: true,
+              responseValue: '',
+              errorType: ErrorType.invalidEnteredValue,
+              errorMessage: invalidEnteredValueMessage,
+            ),
           ),
+          initialState: const WidgetbookApiState.initial(),
         );
 
         await tester.pumpAppWithBlocProvider(
           const HomePage(),
           widgetbookApiCubit: widgetbookApiCubit,
         );
+
+        await tester.pump();
 
         final findInvalidEnteredValueWidgetByKey =
             find.byKey(invalidEnteredValueWidgetKey);
@@ -298,20 +344,26 @@ void main() {
       '(containing only blank spaces) '
       'and state is typedValue',
       (tester) async {
-        when(() => widgetbookApiCubit.state).thenReturn(
-          const WidgetbookApiState.typedValue(
-            typedValue: '   ',
-            isValueTyped: true,
-            responseValue: '',
-            errorType: ErrorType.invalidEnteredValue,
-            errorMessage: invalidEnteredValueMessage,
+        whenListen(
+          widgetbookApiCubit,
+          Stream.value(
+            const WidgetbookApiState.typedValue(
+              typedValue: '   ',
+              isValueTyped: true,
+              responseValue: '',
+              errorType: ErrorType.invalidEnteredValue,
+              errorMessage: invalidEnteredValueMessage,
+            ),
           ),
+          initialState: const WidgetbookApiState.initial(),
         );
 
         await tester.pumpAppWithBlocProvider(
           const HomePage(),
           widgetbookApiCubit: widgetbookApiCubit,
         );
+
+        await tester.pump();
 
         final findInvalidEnteredValueWidgetByKey =
             find.byKey(invalidEnteredValueWidgetKey);

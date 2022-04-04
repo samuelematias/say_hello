@@ -16,9 +16,8 @@ void main() {
 
     test('initial state is WidgetbookApiState.initial', () {
       final widgetbookApiCubit = WidgetbookApiCubit(widgetbookApi);
+      addTearDown(widgetbookApiCubit.close);
       expect(widgetbookApiCubit.state, const WidgetbookApiState.initial());
-
-      widgetbookApiCubit.close();
     });
 
     group('getWidgetbook', () {
@@ -77,12 +76,6 @@ void main() {
           WidgetbookApiState.loading(typedValue: message),
           WidgetbookApiState.fetchFailure(
             typedValue: message,
-
-            /// This lint rule was ignore here,
-            /// because it is necessary to guarantee
-            /// in the test that it is really this value.
-            // ignore: avoid_redundant_argument_values
-            errorMessage: defaultErrorMessage,
           ),
         ],
       );
@@ -118,12 +111,6 @@ void main() {
             typedValue: '',
             isValueTyped: false,
             responseValue: '',
-
-            /// This lint rule was ignore here,
-            /// because it is necessary to guarantee
-            /// in the test that it is really this value.
-            // ignore: avoid_redundant_argument_values
-            errorType: ErrorType.none,
           ),
         ],
       );
@@ -139,18 +126,6 @@ void main() {
             typedValue: message,
             isValueTyped: true,
             responseValue: '',
-
-            /// This lint rule was ignore here,
-            /// because it is necessary to guarantee
-            /// in the test that it is really this value.
-            // ignore: avoid_redundant_argument_values
-            errorType: ErrorType.none,
-
-            /// This lint rule was ignore here,
-            /// because it is necessary to guarantee
-            /// in the test that it is really this value.
-            // ignore: avoid_redundant_argument_values
-            errorMessage: '',
           ),
         ],
       );
